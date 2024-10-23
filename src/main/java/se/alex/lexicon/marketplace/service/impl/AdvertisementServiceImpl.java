@@ -6,6 +6,7 @@ import se.alex.lexicon.marketplace.entity.Advertisement;
 import se.alex.lexicon.marketplace.repository.AdvertisementRepository;
 import se.alex.lexicon.marketplace.service.AdvertisementService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,6 +21,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public Advertisement createAdvertisement(Advertisement advertisement) {
+        advertisement.setCreatedAt(LocalDateTime.now());
+        advertisement.setExpiresAt(LocalDateTime.now().plusDays(30)); // Example expiry
         return advertisementRepository.save(advertisement);
     }
 

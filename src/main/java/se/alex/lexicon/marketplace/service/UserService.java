@@ -4,5 +4,5 @@ import se.alex.lexicon.marketplace.entity.User;
 
 public interface UserService {
     User registerUser(User user);
-    User findByEmail(String email);
+    User findByUsername(String username);
 }
