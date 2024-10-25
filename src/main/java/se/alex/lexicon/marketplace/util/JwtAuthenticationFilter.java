@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            // Skip JWT processing if Authorization header is missing or improperly formatted
+
             filterChain.doFilter(request, response);
             return;
         }

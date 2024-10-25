@@ -26,13 +26,10 @@ public class AdvertisementController {
 
     @PostMapping("/create")
     public ResponseEntity<Advertisement> createAdvertisement(@RequestBody Advertisement advertisement, Authentication authentication) {
-        // Get the current authenticated user
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
-
         advertisement.setUser(user);
-
         Advertisement createdAd = advertisementService.createAdvertisement(advertisement);
         return ResponseEntity.ok(createdAd);
     }

@@ -22,7 +22,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public Advertisement createAdvertisement(Advertisement advertisement) {
         advertisement.setCreatedAt(LocalDateTime.now());
-        advertisement.setExpiresAt(LocalDateTime.now().plusDays(30)); // Example expiry
+        advertisement.setExpiresAt(LocalDateTime.now().plusDays(30));
         return advertisementRepository.save(advertisement);
     }
 
