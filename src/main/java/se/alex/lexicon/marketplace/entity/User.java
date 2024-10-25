@@ -3,7 +3,7 @@ package se.alex.lexicon.marketplace.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +29,9 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    @Size(min = 6, max = 30, message = "Password must be between 6 and 30 characters")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,30}$",
+            message = "Password must be between 6 and 30 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
+
     private String password;
 
     @Enumerated(EnumType.STRING)

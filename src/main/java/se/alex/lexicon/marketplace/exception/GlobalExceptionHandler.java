@@ -23,4 +23,10 @@ public class GlobalExceptionHandler {
         logger.error("Authentication failed", ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + ex.getMessage());
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> handleUserAlreadyExistsException(@NonNull UserAlreadyExistsException ex) {
+        logger.error("User already exists", ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists: " + ex.getMessage());
+    }
 }
