@@ -40,30 +40,5 @@ The project follows the MVC pattern and includes the following packages:
 ### Logging
 - `slf4j-api`, `logback-classic`
 
-## Running the Application
-## Running the Application
 
-### 2. Configure the Database
-- Update the `src/main/resources/application.properties` file with the appropriate database credentials.
 
-Example configuration:
-```properties
-server.port=8080
-
-# Database Configuration
-spring.datasource.url=jdbc:mariadb://localhost:3306/marketplace_db
-spring.datasource.username=root
-spring.datasource.password=root
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
-
-# JWT Configuration
-app.jwt.secret=VWykyZ8oMfvoCIowo+/1N+3bZn7UxrI0wIQWfo76nUg=
-app.jwt.expirationMs=86400000
-
-# CORS Configuration (if needed)
-spring.web.cors.allowed-origins=http://localhost:3000
-spring.web.cors.allowed-methods=GET,POST,PUT,DELETE
-spring.web.cors.allowed-headers=Authorization,Content-Type
-![Marketplace Class Diagram](src/main/resources/diagram/MarketPlaceDiagram.svg)
