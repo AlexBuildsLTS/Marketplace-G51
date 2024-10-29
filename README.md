@@ -40,16 +40,13 @@ The project follows the MVC pattern and includes the following packages:
 ### Logging
 - `slf4j-api`, `logback-classic`
 
-## Class Diagram
-# Marketplace Application
-
 This is the backend for the Marketplace-G51 project, built using Spring Boot, REST APIs, and other Java technologies. Below you can see the class diagram that illustrates the relationships among the main entities of the project.
-
 ## Class Diagram
 
+[View Class Diagram](src/main/resources/DiagrammarketApp51.svg)
 
-## Class Diagram
+Or see the diagram below:
 
-[View Class Diagram](src/main/resources/diagram/Marketplacediagram51g.svg)
+![Class Diagram](src/main/resources/DiagrammarketApp51.svg)
 
 
