@@ -53,4 +53,3 @@ This is the backend for the Marketplace-G51 project, built using Spring Boot, RE
 [View Class Diagram](src/main/resources/diagram/Marketplacediagram51g.svg)
 
 
-![Class Diagram](src/main/resources/diagram/Marketplacediagram51g.svg)
