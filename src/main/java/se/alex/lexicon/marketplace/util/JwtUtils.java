@@ -24,9 +24,12 @@ public class JwtUtils {
 
     private Key key;
 
+    // This method will be executed right after the dependencies are injected.
     @PostConstruct
     public void init() {
+        // This line initializes the key using the JWT secret value from the environment.
         key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
     }
 
     public String generateToken(String username) {
@@ -43,10 +46,11 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            // Log the exception if needed
+            System.err.println("Invalid JWT token: " + e.getMessage());
         }
         return false;
     }
+
 
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
