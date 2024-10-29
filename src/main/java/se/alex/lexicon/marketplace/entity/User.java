@@ -5,38 +5,60 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private Long id;
 
+    @NotBlank(message = "Username is required")
     @Column(nullable = false, unique = true)
-    @Email(message = "Please provide a valid email address")
-    @NotBlank(message = "Email cannot be blank")
-    private String email;
-
-    @Column(nullable = false, unique = true)
-    @NotBlank(message = "Username cannot be blank")
     private String username;
 
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is required")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(nullable = false)
-    @Size(min = 6, max = 30, message = "Password must be between 6 and 30 characters")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
-    public enum Role {
-        BUYER,
-        SELLER
+
+
+    /**
+     * Assigns a role to the user.
+     * @param role The role to assign.
+     */
+    public void assignRole(String role) {
+        this.role = role;
     }
+
+    /**
+     * Masks the user's password when it is displayed.
+     * @return A masked password (for example, "****").
+     */
+    public String getMaskedPassword() {
+        return "****";
+    }
+
+    /**
+     * Checks if the user has a specific role.
+     * @param role The role to check.
+     * @return true if the user has the role, false otherwise.
+     */
+    public boolean hasRole(String role) {
+        return this.role != null && this.role.equalsIgnoreCase(role);
+    }
+
 }

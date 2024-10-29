@@ -3,6 +3,6 @@ package se.alex.lexicon.marketplace.service;
 import se.alex.lexicon.marketplace.entity.User;
 
 public interface UserService {
-    User registerUser(User user);
+    void registerUser(User user);
     User findByUsername(String username);
 }
