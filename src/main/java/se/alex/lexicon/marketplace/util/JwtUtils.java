@@ -3,18 +3,22 @@ package se.alex.lexicon.marketplace.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.security.Key;
 import java.util.Date;
 
-import io.jsonwebtoken.security.Keys;
-
 @Component
 public class JwtUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${app.jwt.secret}")
     private String jwtSecret;
@@ -24,12 +28,9 @@ public class JwtUtils {
 
     private Key key;
 
-    // This method will be executed right after the dependencies are injected.
     @PostConstruct
     public void init() {
-        // This line initializes the key using the JWT secret value from the environment.
         key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-
     }
 
     public String generateToken(String username) {
@@ -46,11 +47,11 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            System.err.println("Invalid JWT token: " + e.getMessage());
+            // Use logger to log the error
+            logger.error("Invalid JWT Token: {}", e.getMessage());
         }
         return false;
     }
-
 
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
