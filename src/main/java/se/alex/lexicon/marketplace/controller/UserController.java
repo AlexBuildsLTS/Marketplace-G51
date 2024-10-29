@@ -35,7 +35,13 @@ public class UserController {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        user.setRole(userDTO.getRole());
+
+        // Convert the role string to the Role enum, with error handling for invalid roles.
+        try {
+            user.assignRole(User.Role.valueOf(userDTO.getRole().toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid role specified");
+        }
 
         userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");

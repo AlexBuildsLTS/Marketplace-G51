@@ -32,16 +32,32 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-
+    // Enum to manage user roles
+    public enum Role {
+        BUYER,
+        SELLER,
+        ADMIN
+    }
 
     /**
      * Assigns a role to the user.
      * @param role The role to assign.
      */
-    public void assignRole(String role) {
+    public void assignRole(Role role) {
         this.role = role;
+    }
+
+    /**
+     * Checks if the user has a specific role.
+     * @param role The role to check.
+     * @return true if the user has the role, false otherwise.
+     */
+    public boolean hasRole(Role role) {
+        return this.role == role;
     }
 
     /**
@@ -51,14 +67,4 @@ public class User {
     public String getMaskedPassword() {
         return "****";
     }
-
-    /**
-     * Checks if the user has a specific role.
-     * @param role The role to check.
-     * @return true if the user has the role, false otherwise.
-     */
-    public boolean hasRole(String role) {
-        return this.role != null && this.role.equalsIgnoreCase(role);
-    }
-
 }
