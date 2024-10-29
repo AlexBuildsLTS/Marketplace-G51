@@ -6,8 +6,8 @@ import se.alex.lexicon.marketplace.entity.Advertisement;
 import se.alex.lexicon.marketplace.repository.AdvertisementRepository;
 import se.alex.lexicon.marketplace.service.AdvertisementService;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -21,13 +21,31 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public Advertisement createAdvertisement(Advertisement advertisement) {
-        advertisement.setCreatedAt(LocalDateTime.now());
-        advertisement.setExpiresAt(LocalDateTime.now().plusDays(30)); // Example expiry
         return advertisementRepository.save(advertisement);
     }
 
     @Override
-    public List<Advertisement> getAdvertisementsByUserId(Long userId) {
-        return advertisementRepository.findByUser_UserId(userId);
+    public Advertisement updateAdvertisement(Advertisement advertisement) {
+        Optional<Advertisement> existingAd = advertisementRepository.findById(advertisement.getId());
+        if (existingAd.isPresent()) {
+            return advertisementRepository.save(advertisement);
+        } else {
+            throw new IllegalArgumentException("Advertisement does not exist.");
+        }
+    }
+
+    @Override
+    public void deleteAdvertisement(Long advertisementId) {
+        advertisementRepository.deleteById(advertisementId);
+    }
+
+    @Override
+    public List<Advertisement> findAdvertisementsByUserId(Long userId) {
+        return advertisementRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Advertisement> findAll() {
+        return advertisementRepository.findAll();
     }
 }
