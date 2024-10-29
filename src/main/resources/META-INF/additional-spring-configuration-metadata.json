@@ -1,0 +1,29 @@
+{
+  "properties": [
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Description for jwt.expiration."
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.secret."
+    },
+    {
+      "name": "spring.web.cors.allowed-origins",
+      "type": "java.lang.String",
+      "description": "Description for spring.web.cors.allowed-origins."
+    },
+    {
+      "name": "spring.web.cors.allowed-methods",
+      "type": "java.lang.String",
+      "description": "Description for spring.web.cors.allowed-methods."
+    },
+    {
+      "description": "Description for spring.web.cors.allowed-headers.",
+      "name": "spring.web.cors.allowed-headers",
+      "type": "java.lang.String"
+    }
+  ]
+}
