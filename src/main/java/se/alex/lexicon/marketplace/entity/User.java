@@ -51,20 +51,4 @@ public class User {
         this.role = role;
     }
 
-    /**
-     * Checks if the user has a specific role.
-     * @param role The role to check.
-     * @return true if the user has the role, false otherwise.
-     */
-    public boolean hasRole(Role role) {
-        return this.role == role;
-    }
-
-    /**
-     * Masks the user's password when it is displayed.
-     * @return A masked password (for example, "****").
-     */
-    public String getMaskedPassword() {
-        return "****";
-    }
 }

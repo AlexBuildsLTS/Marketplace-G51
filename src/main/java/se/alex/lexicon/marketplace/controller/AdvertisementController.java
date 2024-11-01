@@ -9,7 +9,7 @@ import se.alex.lexicon.marketplace.service.AdvertisementService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ads")
+@RequestMapping("/api/advertisements")
 public class AdvertisementController {
 
     private final AdvertisementService advertisementService;
@@ -20,12 +20,12 @@ public class AdvertisementController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Advertisement> createAdvertisement(@RequestBody Advertisement ad) {
-        return ResponseEntity.ok(advertisementService.createAdvertisement(ad));
+    public ResponseEntity<Advertisement> createAdvertisement(@RequestBody Advertisement advertisement) {
+        return ResponseEntity.ok(advertisementService.createAdvertisement(advertisement));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Advertisement>> getAllAdvertisements() {
-        return ResponseEntity.ok(advertisementService.findAll());
+    @GetMapping("/valid")
+    public ResponseEntity<List<Advertisement>> getAllValidAdvertisements() {
+        return ResponseEntity.ok(advertisementService.findAllValidAdvertisements());
     }
 }

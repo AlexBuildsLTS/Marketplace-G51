@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import se.alex.lexicon.marketplace.dto.LoginRequest;
 import se.alex.lexicon.marketplace.dto.JwtResponse;
 import se.alex.lexicon.marketplace.dto.UserDTO;
-import se.alex.lexicon.marketplace.entity.User;
 import se.alex.lexicon.marketplace.service.UserService;
 import se.alex.lexicon.marketplace.util.JwtUtils;
 
@@ -31,20 +30,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-
-        // Convert the role string to the Role enum, with error handling for invalid roles.
         try {
-            user.assignRole(User.Role.valueOf(userDTO.getRole().toUpperCase()));
+            userService.registerUser(userDTO);  // Delegates logic to UserService
+            return ResponseEntity.ok("User registered successfully");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid role specified");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/authenticate")
