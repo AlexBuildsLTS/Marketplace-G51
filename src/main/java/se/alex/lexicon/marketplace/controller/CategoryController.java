@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import se.alex.lexicon.marketplace.entity.Category;
 import se.alex.lexicon.marketplace.service.CategoryService;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,13 +20,23 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    // Creating a new category without the "/create" path, making the URL simpler.
+    /**
+     * Creates a new category.
+     *
+     * @param category The category data.
+     * @return The created category.
+     */
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.createCategory(category));
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
+        Category createdCategory = categoryService.createCategory(category);
+        return ResponseEntity.ok(createdCategory);
     }
 
-    // Fetching all categories.
+    /**
+     * Retrieves all categories.
+     *
+     * @return List of categories.
+     */
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok(categoryService.findAll());

@@ -16,25 +16,32 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false, length = 1000)
     private String description;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private LocalDateTime expiresAt;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-
 
     /**
      * Updates the price of the advertisement.
+     *
      * @param newPrice The new price to set.
      */
     public void updatePrice(BigDecimal newPrice) {
@@ -43,6 +50,7 @@ public class Advertisement {
 
     /**
      * Checks if the advertisement has expired.
+     *
      * @return true if the advertisement is expired, false otherwise.
      */
     public boolean isExpired() {
@@ -50,10 +58,11 @@ public class Advertisement {
     }
 
     /**
-     * Sets the createdAt timestamp when the advertisement is created.
+     * Sets the createdAt and expiresAt timestamps when the advertisement is created.
      */
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.expiresAt = this.createdAt.plusDays(30); // Example: expires after 30 days
     }
 }

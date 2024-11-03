@@ -1,5 +1,6 @@
 package se.alex.lexicon.marketplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users") // Changed table name to 'users'
 public class User {
 
     @Id
@@ -30,6 +31,7 @@ public class User {
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -45,10 +47,10 @@ public class User {
 
     /**
      * Assigns a role to the user.
+     *
      * @param role The role to assign.
      */
     public void assignRole(Role role) {
         this.role = role;
     }
-
 }

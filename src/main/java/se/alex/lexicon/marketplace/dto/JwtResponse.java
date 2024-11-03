@@ -10,5 +10,4 @@ public class JwtResponse {
     public JwtResponse(String token) {
         this.token = token;
     }
-
 }

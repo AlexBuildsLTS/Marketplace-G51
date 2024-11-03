@@ -16,16 +16,18 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(length = 1000)
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Advertisement> advertisements = new HashSet<>();
-
-
 
     /**
      * Adds an advertisement to this category.
+     *
      * @param advertisement The advertisement to add.
      */
     public void addAdvertisement(Advertisement advertisement) {
@@ -35,6 +37,7 @@ public class Category {
 
     /**
      * Removes an advertisement from this category.
+     *
      * @param advertisement The advertisement to remove.
      */
     public void removeAdvertisement(Advertisement advertisement) {

@@ -20,5 +20,5 @@ public class UserDTO {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-    private String role;
+    private String role; // Optional; defaults to BUYER if not provided
 }
