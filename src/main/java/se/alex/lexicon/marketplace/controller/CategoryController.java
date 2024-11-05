@@ -20,23 +20,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    /**
-     * Creates a new category.
-     *
-     * @param category The category data.
-     * @return The created category.
-     */
     @PostMapping
     public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         Category createdCategory = categoryService.createCategory(category);
         return ResponseEntity.ok(createdCategory);
     }
 
-    /**
-     * Retrieves all categories.
-     *
-     * @return List of categories.
-     */
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok(categoryService.findAll());

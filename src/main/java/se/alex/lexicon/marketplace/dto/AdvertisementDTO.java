@@ -24,5 +24,5 @@ public class AdvertisementDTO {
     @NotNull(message = "Category ID is required")
     private Long categoryId;
 
-    // Removed userId as it will be set based on the authenticated user or provided UserDTO
+    // Optional: Include user information if needed
 }
