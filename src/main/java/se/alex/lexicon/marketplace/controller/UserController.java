@@ -1,5 +1,6 @@
 package se.alex.lexicon.marketplace.controller;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    @Getter
     private final JwtUtils jwtUtils;
 
     @Autowired
@@ -24,31 +26,20 @@ public class UserController {
         this.jwtUtils = jwtUtils;
     }
 
-    /**
-     * Registers a new user.
-     *
-     * @param userDTO The user details.
-     * @return Success message or error message.
-     */
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserDTO userDTO) {
         try {
-            userService.registerUser(userDTO);  // Delegates logic to UserService
+            userService.registerUser(userDTO);
             return ResponseEntity.ok("User registered successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /**
-     * Authenticates a user and returns a JWT token.
-     *
-     * @param loginRequest The login credentials.
-     * @return JWT token response.
-     */
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         String jwt = userService.authenticateUser(loginRequest);
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
+
 }

@@ -45,12 +45,8 @@ public class User {
         ADMIN
     }
 
-    /**
-     * Assigns a role to the user.
-     *
-     * @param role The role to assign.
-     */
     public void assignRole(Role role) {
         this.role = role;
     }
 }
+
