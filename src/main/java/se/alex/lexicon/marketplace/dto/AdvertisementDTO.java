@@ -23,6 +23,4 @@ public class AdvertisementDTO {
 
     @NotNull(message = "Category ID is required")
     private Long categoryId;
-
-    // Optional: Include user information if needed
 }
