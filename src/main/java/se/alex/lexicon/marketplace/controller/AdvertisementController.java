@@ -2,7 +2,6 @@ package se.alex.lexicon.marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import se.alex.lexicon.marketplace.dto.AdvertisementDTO;
@@ -23,11 +22,11 @@ public class AdvertisementController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     public ResponseEntity<AdvertisementDTO> createAdvertisement(
             @Valid @RequestBody AdvertisementDTO advertisementDTO,
             Authentication authentication) {
-        AdvertisementDTO createdAd = advertisementService.createAdvertisement(advertisementDTO, authentication);
+        String username = authentication.getName();
+        AdvertisementDTO createdAd = advertisementService.createAdvertisement(advertisementDTO, username);
         return ResponseEntity.ok(createdAd);
     }
 

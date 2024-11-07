@@ -4,11 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import se.alex.lexicon.marketplace.entity.Advertisement;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
-    List<Advertisement> findByUserId(Long userId);
 
-    @Query("SELECT a FROM Advertisement a WHERE a.expiresAt > CURRENT_TIMESTAMP")
-    List<Advertisement> findAllValidAdvertisements();
+    @Query("SELECT a FROM Advertisement a WHERE a.createdAt >= :validSince")
+    List<Advertisement> findAllValidAdvertisements(LocalDateTime validSince);
 }

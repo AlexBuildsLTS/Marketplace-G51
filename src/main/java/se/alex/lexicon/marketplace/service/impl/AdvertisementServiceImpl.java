@@ -4,23 +4,21 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import se.alex.lexicon.marketplace.dto.AdvertisementDTO;
 import se.alex.lexicon.marketplace.entity.Advertisement;
 import se.alex.lexicon.marketplace.entity.Category;
 import se.alex.lexicon.marketplace.entity.User;
-import se.alex.lexicon.marketplace.exception.UserNotAuthenticatedException;
 import se.alex.lexicon.marketplace.repository.AdvertisementRepository;
 import se.alex.lexicon.marketplace.repository.CategoryRepository;
 import se.alex.lexicon.marketplace.service.AdvertisementService;
 import se.alex.lexicon.marketplace.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.Collector;
+
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -40,16 +38,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdvertisementDTO createAdvertisement(AdvertisementDTO advertisementDTO, Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()
-                || (authentication instanceof AnonymousAuthenticationToken)) {
-            logger.warn("Attempt to create advertisement without authentication");
-            throw new UserNotAuthenticatedException("User must be authenticated to create advertisements.");
-        }
-
-        String username = authentication.getName();
+    public AdvertisementDTO createAdvertisement(AdvertisementDTO advertisementDTO, String username) {
         User user = userService.findByUsername(username);
-        logger.info("Authenticated user {} is creating an advertisement", username);
+        logger.info("User {} is creating an advertisement", username);
 
         Advertisement advertisement = modelMapper.map(advertisementDTO, Advertisement.class);
 
@@ -63,7 +54,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         advertisement.setUser(user);
         Advertisement savedAd = advertisementRepository.save(advertisement);
-        logger.info("Advertisement '{}' created successfully with ID {}", advertisement.getTitle(), savedAd.getId());
+        logger.info("Advertisement '{}' created successfully with ID {}", savedAd.getTitle(), savedAd.getId());
 
         // Map back to DTO, setting categoryId
         AdvertisementDTO savedAdDTO = modelMapper.map(savedAd, AdvertisementDTO.class);
@@ -74,14 +65,22 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public List<AdvertisementDTO> findAllValidAdvertisements() {
-        List<Advertisement> validAds = advertisementRepository.findAllValidAdvertisements();
+        // Define "valid" as advertisements created within the last 30 days (adjust as needed)
+        LocalDateTime validSince = LocalDateTime.now().minusDays(30);
+        List<Advertisement> validAds = advertisementRepository.findAllValidAdvertisements(validSince);
         logger.info("Fetched {} valid advertisements", validAds.size());
-        return validAds.stream()
+        List<AdvertisementDTO> collect;
+        collect = validAds.stream()
                 .map(ad -> {
                     AdvertisementDTO dto = modelMapper.map(ad, AdvertisementDTO.class);
                     dto.setCategoryId(ad.getCategory().getId());
                     return dto;
                 })
-                .collect(Collectors.toList());
+                .collect(toCollection());
+        return collect;
+    }
+
+    private Collector<? super AdvertisementDTO, Object, List<AdvertisementDTO>> toCollection( ) {
+        return null;
     }
 }

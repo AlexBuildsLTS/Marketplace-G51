@@ -1,11 +1,11 @@
 package se.alex.lexicon.marketplace.service;
 
-import se.alex.lexicon.marketplace.entity.User;
 import se.alex.lexicon.marketplace.dto.UserDTO;
 import se.alex.lexicon.marketplace.dto.LoginRequest;
+import se.alex.lexicon.marketplace.entity.User;
 
 public interface UserService {
-    User findByUsername(String username);
     User registerUser(UserDTO userDTO);
-    String authenticateUser(LoginRequest loginRequest); // Added method
+    String authenticateUser(LoginRequest loginRequest);
+    User findByUsername(String username);
 }

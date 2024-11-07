@@ -1,6 +1,9 @@
 package se.alex.lexicon.marketplace.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,20 +19,18 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 1000)
+    @NotBlank(message = "Description is required")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than zero")
+    @Column(nullable = false)
     private BigDecimal price;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime expiresAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -39,30 +40,5 @@ public class Advertisement {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    /**
-     * Updates the price of the advertisement.
-     *
-     * @param newPrice The new price to set.
-     */
-    public void updatePrice(BigDecimal newPrice) {
-        this.price = newPrice;
-    }
-
-    /**
-     * Checks if the advertisement has expired.
-     *
-     * @return true if the advertisement is expired, false otherwise.
-     */
-    public boolean isExpired() {
-        return expiresAt != null && LocalDateTime.now().isAfter(expiresAt);
-    }
-
-    /**
-     * Sets the createdAt and expiresAt timestamps when the advertisement is created.
-     */
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.expiresAt = this.createdAt.plusDays(30); // Example: expires after 30 days
-    }
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

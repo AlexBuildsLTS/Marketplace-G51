@@ -1,5 +1,6 @@
 package se.alex.lexicon.marketplace.service.impl;
 
+import lombok.Getter;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,35 +16,32 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    @Getter
+    private final ModelMapper modelMapper;
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
-    /**
-     * Creates a new category.
-     *
-     * @param category The category entity.
-     * @return The created category.
-     */
     @Override
     public Category createCategory(Category category) {
+        if (categoryRepository.existsByName(category.getName())) {
+            logger.warn("Category name {} already exists", category.getName());
+            throw new IllegalArgumentException("Category name must be unique.");
+        }
         Category savedCategory = categoryRepository.save(category);
-        logger.info("Category '{}' created successfully with ID {}", savedCategory.getName(), savedCategory.getId());
+        logger.info("Category {} created successfully with ID {}", savedCategory.getName(), savedCategory.getId());
         return savedCategory;
     }
 
-    /**
-     * Retrieves all categories.
-     *
-     * @return List of categories.
-     */
     @Override
     public List<Category> findAll() {
         List<Category> categories = categoryRepository.findAll();
         logger.info("Fetched {} categories", categories.size());
         return categories;
     }
+
 }

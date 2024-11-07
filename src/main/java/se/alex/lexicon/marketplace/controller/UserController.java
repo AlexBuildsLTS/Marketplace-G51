@@ -1,6 +1,6 @@
 package se.alex.lexicon.marketplace.controller;
 
-import lombok.Getter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,6 @@ import se.alex.lexicon.marketplace.dto.UserDTO;
 import se.alex.lexicon.marketplace.dto.LoginRequest;
 import se.alex.lexicon.marketplace.dto.JwtResponse;
 import se.alex.lexicon.marketplace.service.UserService;
-import se.alex.lexicon.marketplace.util.JwtUtils;
 
 import jakarta.validation.Valid;
 
@@ -17,13 +16,12 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    @Getter
-    private final JwtUtils jwtUtils;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, JwtUtils jwtUtils) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
-        this.jwtUtils = jwtUtils;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/register")
