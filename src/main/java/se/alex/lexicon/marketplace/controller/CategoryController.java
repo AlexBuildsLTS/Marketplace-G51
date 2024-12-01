@@ -1,7 +1,9 @@
 package se.alex.lexicon.marketplace.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.alex.lexicon.marketplace.entity.Category;
 import se.alex.lexicon.marketplace.service.CategoryService;
@@ -20,10 +22,17 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/admin")
+    public ResponseEntity<Category> createCategoryAsAdmin(@Valid @RequestBody Category category) {
         Category createdCategory = categoryService.createCategory(category);
-        return ResponseEntity.ok(createdCategory);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> createCategoryForUsers(@Valid @RequestBody Category category) {
+        // Logic for regular users creating categories (if applicable)
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createCategory(category));
     }
 
     @GetMapping

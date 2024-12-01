@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -40,5 +41,7 @@ public class Advertisement {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 }
