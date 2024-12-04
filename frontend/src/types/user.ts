@@ -1,14 +1,13 @@
 // frontend/src/types/user.ts
 export interface UserProfileResponse {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-    avatarUrl?: string;
-    createdAt: string;
+  email: string;
+  name: string;
+  role: string;
+  avatarUrl?: string;
+  createdAt: string;
 }
 
 export interface UpdateProfileRequest {
-    name: string;
-    avatarUrl?: string;
+  avatarUrl?: string;
+  // Add other fields if necessary
 }
