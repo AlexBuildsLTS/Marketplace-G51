@@ -1,18 +1,16 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { HomePage } from "@/pages/HomePage";
-import { LoginPage } from "@/pages/LoginPage";
-import { RegisterPage } from "@/pages/RegisterPage";
-import { BuyerDashboard } from "@/pages/BuyerDashboard";
-import { SellerDashboard } from "@/pages/SellerDashboard";
-import { ProfilePage } from "@/pages/ProfilePage";
-import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
-import { Navbar } from "@/components/shared/Navbar";
-import { Footer } from "@/components/shared/Footer";
-import { useAuthStore } from "@/store/authStore";
-
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import { BuyerDashboard } from "./pages/BuyerDashboard";
+import { SellerDashboard } from "./pages/SellerDashboard";
+import { ProfilePage } from "./pages/ProfilePage";
+import { ProtectedRoute } from "./components/shared/ProtectedRoute";
+import { Navbar } from "./components/shared/Navbar";
+import { Footer } from "./components/shared/Footer";
+import { useAuthStore } from "./store/authStore";
 export default function App() {
-  const { user } = useAuthStore();
-
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
@@ -29,6 +27,7 @@ export default function App() {
                   {user?.role === "seller" ?
                     <SellerDashboard />
                   : <BuyerDashboard />}
+                  {/* <Navigate to="/login" replace={true} /> */}
                 </ProtectedRoute>
               }
             />
