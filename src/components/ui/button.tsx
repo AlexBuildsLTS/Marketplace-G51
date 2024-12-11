@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils"; // Ensure this path is correct and the function is properly exported from utils
+import { cn } from "../../lib/utils"; // Ensure this path is correct and the function is properly exported from utils
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary";
